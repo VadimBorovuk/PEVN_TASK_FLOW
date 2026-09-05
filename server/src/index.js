@@ -21,17 +21,17 @@ app.use('/api', router)
 app.use(errorMiddleware) // must be last in list middleware by .use()
 // В контролерах в catch (e) буде передаватися помилка через next(e) яка приходить з сервісу через throw ApiError.
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../../client/dist")));
-
-  app.use((req, res, next) => {
-    if (!req.path.startsWith('/api')) {
-      res.sendFile(path.join(__dirname, '../../client/dist', 'index.html'));
-    } else {
-      next();
-    }
-  });
-}
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(path.join(__dirname, "../../client/dist")));
+//
+//   app.use((req, res, next) => {
+//     if (!req.path.startsWith('/api')) {
+//       res.sendFile(path.join(__dirname, '../../client/dist', 'index.html'));
+//     } else {
+//       next();
+//     }
+//   });
+// }
 
 app.listen(PORT, ()=>{
   console.log(`Server on http://localhost:${PORT}`);
