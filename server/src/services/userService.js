@@ -45,7 +45,7 @@ class UserService {
          VALUES ($1, $2, $3, $4, $5) RETURNING *`,
         [name, email, passwordHash, position, activationLink]
     );
-    await mailService.sendActivationMail(email, `${process.env.API_URL}/api/user/activate/${activationLink}`)
+    // await mailService.sendActivationMail(email, `${process.env.API_URL}/api/user/activate/${activationLink}`)
     const createdUser = newUser.rows[0];
 
     // for getting data which send to token after decode them
