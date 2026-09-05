@@ -5,13 +5,14 @@ class MailService {
   constructor() {
     this.transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT,
-      secure: false,
+      port: Number(process.env.SMTP_PORT),
+      secure: Number(process.env.SMTP_PORT) === 465,
+      family: 4,  // форсувати IPv4, уникнути ENETUNREACH на IPv6
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD
       }
-    })
+    });
   }
 
   async sendActivationMail(to_email, link) {
