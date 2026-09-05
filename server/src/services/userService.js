@@ -2,7 +2,6 @@ const db = require('../config/db')
 const bcrypt = require('bcryptjs')
 const uuid = require('uuid')
 const tokenService = require('./tokenService')
-const mailService = require('./mailService')
 const UserDto = require('../dtos/userDto');
 const ApiError = require('../exceptions/api-error')
 
@@ -45,16 +44,6 @@ class UserService {
          VALUES ($1, $2, $3, $4, $5) RETURNING *`,
         [name, email, passwordHash, position, activationLink]
     );
-
-    try {
-      await mailService.sendActivationMail(
-          email,
-          `${process.env.API_URL}/api/user/activate/${activationLink}`
-      );
-    } catch (mailError) {
-      console.error('Mail sending failed:', mailError);
-      // не кидаємо ApiError далі — реєстрація вже відбулась
-    }
     const createdUser = newUser.rows[0];
 
     // for getting data which send to token after decode them
